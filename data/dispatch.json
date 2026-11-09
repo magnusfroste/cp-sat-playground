@@ -1,0 +1,727 @@
+{
+ "instance": {
+  "day": 480,
+  "techs": [
+   {
+    "id": 0,
+    "name": "A. Lind",
+    "skills": [
+     "el",
+     "net"
+    ],
+    "zone": 0,
+    "max": 390
+   },
+   {
+    "id": 1,
+    "name": "M. Okafor",
+    "skills": [
+     "el",
+     "mech"
+    ],
+    "zone": 1,
+    "max": 390
+   },
+   {
+    "id": 2,
+    "name": "S. Berg",
+    "skills": [
+     "net"
+    ],
+    "zone": 2,
+    "max": 390
+   }
+  ],
+  "jobs": [
+   {
+    "id": 0,
+    "name": "V\u00e4rmepump service",
+    "skill": "el",
+    "zone": 0,
+    "dur": 90,
+    "lo": 60,
+    "hi": 240
+   },
+   {
+    "id": 1,
+    "name": "Elcentral byte",
+    "skill": "el",
+    "zone": 1,
+    "dur": 120,
+    "lo": 0,
+    "hi": 300
+   },
+   {
+    "id": 2,
+    "name": "N\u00e4tverksrack",
+    "skill": "net",
+    "zone": 3,
+    "dur": 60,
+    "lo": 0,
+    "hi": 150
+   },
+   {
+    "id": 3,
+    "name": "Ventilation just.",
+    "skill": "mech",
+    "zone": 1,
+    "dur": 90,
+    "lo": 120,
+    "hi": 240
+   },
+   {
+    "id": 4,
+    "name": "Laddbox installation",
+    "skill": "el",
+    "zone": 3,
+    "dur": 120,
+    "lo": 180,
+    "hi": 420
+   },
+   {
+    "id": 5,
+    "name": "Fiber inkoppling",
+    "skill": "net",
+    "zone": 3,
+    "dur": 45,
+    "lo": 240,
+    "hi": 420
+   },
+   {
+    "id": 6,
+    "name": "Styr & \u00f6vervakning",
+    "skill": "el",
+    "zone": 1,
+    "dur": 90,
+    "lo": 300,
+    "hi": 480
+   },
+   {
+    "id": 7,
+    "name": "Servicedisk",
+    "skill": "net",
+    "zone": 0,
+    "dur": 60,
+    "lo": 0,
+    "hi": 150
+   },
+   {
+    "id": 8,
+    "name": "Fl\u00e4ktbyte tak",
+    "skill": "mech",
+    "zone": 2,
+    "dur": 90,
+    "lo": 150,
+    "hi": 270
+   },
+   {
+    "id": 9,
+    "name": "Kylmaskin \u00f6versyn",
+    "skill": "mech",
+    "zone": 3,
+    "dur": 120,
+    "lo": 0,
+    "hi": 300
+   },
+   {
+    "id": 10,
+    "name": "Tryckk\u00e4rl kontroll",
+    "skill": "mech",
+    "zone": 1,
+    "dur": 120,
+    "lo": 240,
+    "hi": 480
+   }
+  ],
+  "travel": [
+   [
+    0,
+    25,
+    40,
+    55
+   ],
+   [
+    25,
+    0,
+    30,
+    35
+   ],
+   [
+    40,
+    30,
+    0,
+    25
+   ],
+   [
+    55,
+    35,
+    25,
+    0
+   ]
+  ],
+  "weights": {
+   "drop": 5000,
+   "late": 20,
+   "early": 8,
+   "overtime": 3,
+   "travel": 2
+  }
+ },
+ "variants": {
+  "hard": {
+   "label": "Alla regler h\u00e5rda",
+   "config": {
+    "overtime": false,
+    "soft_window": false,
+    "allow_drop": false,
+    "relax_skills": false
+   },
+   "status": "INFEASIBLE",
+   "wall_ms": 5.8,
+   "vars": 57,
+   "constraints": 68,
+   "objective": null,
+   "plan": [],
+   "dropped": [],
+   "overtime": {},
+   "lateness": {}
+  },
+  "overtime": {
+   "label": "\u00d6vertid till\u00e5ten",
+   "config": {
+    "overtime": true,
+    "soft_window": false,
+    "allow_drop": false,
+    "relax_skills": false
+   },
+   "status": "INFEASIBLE",
+   "wall_ms": 3.1,
+   "vars": 57,
+   "constraints": 68,
+   "objective": null,
+   "plan": [],
+   "dropped": [],
+   "overtime": {},
+   "lateness": {}
+  },
+  "softwin": {
+   "label": "Tidsf\u00f6nster f\u00e5r glida",
+   "config": {
+    "overtime": false,
+    "soft_window": true,
+    "allow_drop": false,
+    "relax_skills": false
+   },
+   "status": "INFEASIBLE",
+   "wall_ms": 0.4,
+   "vars": 79,
+   "constraints": 68,
+   "objective": null,
+   "plan": [],
+   "dropped": [],
+   "overtime": {},
+   "lateness": {}
+  },
+  "drop": {
+   "label": "Jobb f\u00e5r skjutas upp",
+   "config": {
+    "overtime": false,
+    "soft_window": false,
+    "allow_drop": true,
+    "relax_skills": false
+   },
+   "status": "OPTIMAL",
+   "wall_ms": 20.8,
+   "vars": 57,
+   "constraints": 68,
+   "objective": 10260.0,
+   "plan": [
+    {
+     "job": 7,
+     "tech": 0,
+     "start": 0,
+     "end": 60,
+     "dur": 60,
+     "late": 0,
+     "early": 0
+    },
+    {
+     "job": 0,
+     "tech": 0,
+     "start": 60,
+     "end": 150,
+     "dur": 90,
+     "late": 0,
+     "early": 0
+    },
+    {
+     "job": 4,
+     "tech": 0,
+     "start": 180,
+     "end": 300,
+     "dur": 120,
+     "late": 0,
+     "early": 0
+    },
+    {
+     "job": 6,
+     "tech": 0,
+     "start": 300,
+     "end": 390,
+     "dur": 90,
+     "late": 0,
+     "early": 0
+    },
+    {
+     "job": 1,
+     "tech": 1,
+     "start": 0,
+     "end": 120,
+     "dur": 120,
+     "late": 0,
+     "early": 0
+    },
+    {
+     "job": 3,
+     "tech": 1,
+     "start": 120,
+     "end": 210,
+     "dur": 90,
+     "late": 0,
+     "early": 0
+    },
+    {
+     "job": 10,
+     "tech": 1,
+     "start": 240,
+     "end": 360,
+     "dur": 120,
+     "late": 0,
+     "early": 0
+    },
+    {
+     "job": 2,
+     "tech": 2,
+     "start": 0,
+     "end": 60,
+     "dur": 60,
+     "late": 0,
+     "early": 0
+    },
+    {
+     "job": 5,
+     "tech": 2,
+     "start": 240,
+     "end": 285,
+     "dur": 45,
+     "late": 0,
+     "early": 0
+    }
+   ],
+   "dropped": [
+    8,
+    9
+   ],
+   "overtime": {
+    "0": 0,
+    "1": 0,
+    "2": 0
+   },
+   "lateness": {},
+   "bound": 10260.0
+  },
+  "skills": {
+   "label": "Kompetenskrav mjukas upp",
+   "config": {
+    "overtime": false,
+    "soft_window": false,
+    "allow_drop": false,
+    "relax_skills": true
+   },
+   "status": "OPTIMAL",
+   "wall_ms": 12.9,
+   "vars": 72,
+   "constraints": 83,
+   "objective": 270.0,
+   "plan": [
+    {
+     "job": 7,
+     "tech": 0,
+     "start": 0,
+     "end": 60,
+     "dur": 60,
+     "late": 0,
+     "early": 0
+    },
+    {
+     "job": 0,
+     "tech": 0,
+     "start": 60,
+     "end": 150,
+     "dur": 90,
+     "late": 0,
+     "early": 0
+    },
+    {
+     "job": 3,
+     "tech": 0,
+     "start": 150,
+     "end": 240,
+     "dur": 90,
+     "late": 0,
+     "early": 0
+    },
+    {
+     "job": 2,
+     "tech": 1,
+     "start": 0,
+     "end": 60,
+     "dur": 60,
+     "late": 0,
+     "early": 0
+    },
+    {
+     "job": 1,
+     "tech": 1,
+     "start": 60,
+     "end": 180,
+     "dur": 120,
+     "late": 0,
+     "early": 0
+    },
+    {
+     "job": 10,
+     "tech": 1,
+     "start": 240,
+     "end": 360,
+     "dur": 120,
+     "late": 0,
+     "early": 0
+    },
+    {
+     "job": 6,
+     "tech": 1,
+     "start": 360,
+     "end": 450,
+     "dur": 90,
+     "late": 0,
+     "early": 0
+    },
+    {
+     "job": 9,
+     "tech": 2,
+     "start": 0,
+     "end": 120,
+     "dur": 120,
+     "late": 0,
+     "early": 0
+    },
+    {
+     "job": 8,
+     "tech": 2,
+     "start": 150,
+     "end": 240,
+     "dur": 90,
+     "late": 0,
+     "early": 0
+    },
+    {
+     "job": 4,
+     "tech": 2,
+     "start": 240,
+     "end": 360,
+     "dur": 120,
+     "late": 0,
+     "early": 0
+    },
+    {
+     "job": 5,
+     "tech": 2,
+     "start": 360,
+     "end": 405,
+     "dur": 45,
+     "late": 0,
+     "early": 0
+    }
+   ],
+   "dropped": [],
+   "overtime": {
+    "0": 0,
+    "1": 0,
+    "2": 0
+   },
+   "lateness": {},
+   "bound": 270.0
+  },
+  "ot_win": {
+   "label": "\u00d6vertid + glidande f\u00f6nster",
+   "config": {
+    "overtime": true,
+    "soft_window": true,
+    "allow_drop": false,
+    "relax_skills": false
+   },
+   "status": "OPTIMAL",
+   "wall_ms": 20.1,
+   "vars": 79,
+   "constraints": 68,
+   "objective": 1300.0,
+   "plan": [
+    {
+     "job": 1,
+     "tech": 0,
+     "start": 0,
+     "end": 120,
+     "dur": 120,
+     "late": 0,
+     "early": 0
+    },
+    {
+     "job": 0,
+     "tech": 0,
+     "start": 120,
+     "end": 210,
+     "dur": 90,
+     "late": 0,
+     "early": 0
+    },
+    {
+     "job": 4,
+     "tech": 0,
+     "start": 210,
+     "end": 330,
+     "dur": 120,
+     "late": 0,
+     "early": 0
+    },
+    {
+     "job": 6,
+     "tech": 0,
+     "start": 330,
+     "end": 420,
+     "dur": 90,
+     "late": 0,
+     "early": 0
+    },
+    {
+     "job": 9,
+     "tech": 1,
+     "start": 0,
+     "end": 120,
+     "dur": 120,
+     "late": 0,
+     "early": 0
+    },
+    {
+     "job": 3,
+     "tech": 1,
+     "start": 120,
+     "end": 210,
+     "dur": 90,
+     "late": 0,
+     "early": 0
+    },
+    {
+     "job": 8,
+     "tech": 1,
+     "start": 210,
+     "end": 300,
+     "dur": 90,
+     "late": 30,
+     "early": 0
+    },
+    {
+     "job": 10,
+     "tech": 1,
+     "start": 300,
+     "end": 420,
+     "dur": 120,
+     "late": 0,
+     "early": 0
+    },
+    {
+     "job": 7,
+     "tech": 2,
+     "start": 0,
+     "end": 60,
+     "dur": 60,
+     "late": 0,
+     "early": 0
+    },
+    {
+     "job": 2,
+     "tech": 2,
+     "start": 60,
+     "end": 120,
+     "dur": 60,
+     "late": 0,
+     "early": 0
+    },
+    {
+     "job": 5,
+     "tech": 2,
+     "start": 240,
+     "end": 285,
+     "dur": 45,
+     "late": 0,
+     "early": 0
+    }
+   ],
+   "dropped": [],
+   "overtime": {
+    "0": 30,
+    "1": 30,
+    "2": 0
+   },
+   "lateness": {
+    "0": 0,
+    "1": 0,
+    "2": 0,
+    "3": 0,
+    "4": 0,
+    "5": 0,
+    "6": 0,
+    "7": 0,
+    "8": 0,
+    "9": 0,
+    "10": 0
+   },
+   "bound": 1300.0
+  },
+  "all": {
+   "label": "Allt mjukt",
+   "config": {
+    "overtime": true,
+    "soft_window": true,
+    "allow_drop": true,
+    "relax_skills": true
+   },
+   "status": "OPTIMAL",
+   "wall_ms": 31.7,
+   "vars": 94,
+   "constraints": 83,
+   "objective": 270.0,
+   "plan": [
+    {
+     "job": 7,
+     "tech": 0,
+     "start": 0,
+     "end": 60,
+     "dur": 60,
+     "late": 0,
+     "early": 0
+    },
+    {
+     "job": 0,
+     "tech": 0,
+     "start": 60,
+     "end": 150,
+     "dur": 90,
+     "late": 0,
+     "early": 0
+    },
+    {
+     "job": 10,
+     "tech": 0,
+     "start": 240,
+     "end": 360,
+     "dur": 120,
+     "late": 0,
+     "early": 0
+    },
+    {
+     "job": 1,
+     "tech": 1,
+     "start": 0,
+     "end": 120,
+     "dur": 120,
+     "late": 0,
+     "early": 0
+    },
+    {
+     "job": 3,
+     "tech": 1,
+     "start": 120,
+     "end": 210,
+     "dur": 90,
+     "late": 0,
+     "early": 0
+    },
+    {
+     "job": 5,
+     "tech": 1,
+     "start": 240,
+     "end": 285,
+     "dur": 45,
+     "late": 0,
+     "early": 0
+    },
+    {
+     "job": 6,
+     "tech": 1,
+     "start": 300,
+     "end": 390,
+     "dur": 90,
+     "late": 0,
+     "early": 0
+    },
+    {
+     "job": 2,
+     "tech": 2,
+     "start": 0,
+     "end": 60,
+     "dur": 60,
+     "late": 0,
+     "early": 0
+    },
+    {
+     "job": 9,
+     "tech": 2,
+     "start": 60,
+     "end": 180,
+     "dur": 120,
+     "late": 0,
+     "early": 0
+    },
+    {
+     "job": 8,
+     "tech": 2,
+     "start": 180,
+     "end": 270,
+     "dur": 90,
+     "late": 0,
+     "early": 0
+    },
+    {
+     "job": 4,
+     "tech": 2,
+     "start": 270,
+     "end": 390,
+     "dur": 120,
+     "late": 0,
+     "early": 0
+    }
+   ],
+   "dropped": [],
+   "overtime": {
+    "0": 0,
+    "1": 0,
+    "2": 0
+   },
+   "lateness": {
+    "0": 0,
+    "1": 0,
+    "2": 0,
+    "3": 0,
+    "4": 0,
+    "5": 0,
+    "6": 0,
+    "7": 0,
+    "8": 0,
+    "9": 0,
+    "10": 0
+   },
+   "bound": 270.0
+  }
+ }
+}

@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CP-SAT Playground — se en optimerare tänka</title>
+<meta name="description" content="Interaktiv genomgång av Googles CP-SAT: riktig schemaläggning med OR-Tools, en solver du kan stega igenom steg för steg, och ett test för om ditt problem passar.">
+<link rel="stylesheet" href="styles.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⛓</text></svg>">
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <span class="brand">CP-SAT Playground</span>
+    <nav>
+      <a href="#lab1">Schemat</a>
+      <a href="#lab2">Solvern</a>
+      <a href="#lab3">Passar det mig?</a>
+      <a href="#kod">Kod</a>
+      <a href="#metod">Metod</a>
+    </nav>
+  </div>
+</header>
+
+<div class="wrap">
+
+<section class="hero">
+  <div class="kicker">Constraint programming · OR-Tools · Google</div>
+  <h1>Se en optimerare tänka.</h1>
+  <p class="lede">CP-SAT löser de problem där du kan beskriva <em>reglerna</em> men inte lösningen:
+  vem som gör vad, i vilken ordning, med vilka resurser. Du ger den reglerna och ett pris.
+  Den ger dig tillbaka den billigaste plan som inte bryter mot något — och ett bevis på att
+  ingen billigare finns.</p>
+  <div class="chips">
+    <span class="chip"><b>7</b> riktiga CP-SAT-körningar på denna sida</span>
+    <span class="chip"><b>0</b> påhittade siffror</span>
+    <span class="chip">OR-Tools <b>9.15.6755</b></span>
+  </div>
+</section>
+
+<!-- ================= LAB 1 ================= -->
+<section id="lab1">
+  <div class="secnum">LABB 01</div>
+  <h2>En riktig arbetsdag, sju uppsättningar regler</h2>
+  <p class="muted">Tre tekniker, elva jobb, en arbetsdag på 480 minuter. Kompetenskrav, tidsfönster,
+  restid och arbetstid. Allt under är kört med CP-SAT — välj regler och se vad som händer med planen.</p>
+
+  <div class="scenarios" id="scenarios" role="group" aria-label="Välj regeluppsättning"></div>
+
+  <div class="grid2">
+    <div class="card">
+      <h3 style="margin-bottom:14px">Optimal plan</h3>
+      <div id="gantt"></div>
+      <div class="axis" id="axis"></div>
+      <div id="dropped"></div>
+    </div>
+    <div>
+      <div class="card">
+        <h3 style="margin-bottom:10px">Vad solvern sa</h3>
+        <div class="stats" id="stats"></div>
+        <div class="why" id="why"></div>
+      </div>
+      <div class="card" style="margin-top:16px">
+        <h3 style="margin-bottom:8px">Kostnaden, uppdelad</h3>
+        <div class="small muted" id="breakdown"></div>
+        <div class="small" style="margin-top:12px">
+          <span class="mono" style="color:var(--dim)">Målfunktion:</span>
+          <span class="mono">5000·tappade jobb + 20·min sen + 8·min tidig + 3·min övertid + 2·min restid</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="note">Siffror per körning: tid, variabler och villkor är mätta, inte skattade. En liten
+  instans löses på millisekunder — det är poängen: modellen är inte långsam, den är <em>fel modellerad</em>
+  eller <em>för stor</em> när den blir långsam.</div>
+</section>
+
+<!-- ================= LAB 2 ================= -->
+<section id="lab2">
+  <div class="secnum">LABB 02</div>
+  <h2>En solver du kan stega igenom</h2>
+  <p class="muted">Damproblemet: sätt ut <span class="mono" id="nq-n">8</span> damer på ett bräde så att
+  ingen hotar en annan. Antalet möjliga placeringar är <span class="mono" id="nq-perm">40 320</span>.
+  Solvern undersöker en bråkdel. Följ den: gula rutor är försök som dömdes ut direkt, grön är en dam som
+  fick stå kvar, den lila kanten är raden solvern arbetar på.</p>
+
+  <div class="grid2">
+    <div>
+      <div class="board" id="board" aria-label="Schackbräde"></div>
+      <div class="controls">
+        <button class="btn primary" id="btn-play">Spela</button>
+        <button class="btn" id="btn-step">Ett steg</button>
+        <button class="btn" id="btn-reset">Börja om</button>
+        <button class="btn" id="btn-solve">Lös klart</button>
+      </div>
+      <label class="small muted" style="display:block">Hastighet <input type="range" id="speed" min="1" max="60" value="18"></label>
+    </div>
+    <div>
+      <div class="counters">
+        <div class="stat"><div class="k">Noder</div><div class="n" id="c-nodes">0</div></div>
+        <div class="stat"><div class="k">Prövade</div><div class="n" id="c-tries">0</div></div>
+        <div class="stat"><div class="k">Backtrack</div><div class="n" id="c-backs">0</div></div>
+        <div class="stat"><div class="k">Andel av alla</div><div class="n" id="c-share">0 %</div></div>
+      </div>
+      <div class="log" id="log"></div>
+      <p class="small muted" style="margin-top:12px">Det här är en pedagogisk miniatyrsolver i webbläsaren
+      (backtracking med forward checking). Riktig CP-SAT gör samma sak, men med
+      <em>noggrannare</em> resonemang per nod, <em>inlärda</em> förbud och hundratals trådar. Därför klarar
+      den miljoner variabler där den här klarar dussintals.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= LAB 3 ================= -->
+<section id="lab3">
+  <div class="secnum">LABB 03</div>
+  <h2>Passar problemet CP-SAT?</h2>
+  <p class="muted">Kryssa det som stämmer in. Verktyget passar när reglerna är många, kombinationerna är
+  astronomiska och svaret ska vara <em>bevisat bra</em> — inte bara bra.</p>
+  <div class="grid2">
+    <div class="card" id="fitform">
+      <div class="q"><input type="checkbox" id="q1"><label for="q1">Jag ska fördela eller ordna <b>diskreta saker</b> (jobb, fordon, maskiner, pass, platser).</label></div>
+      <div class="q"><input type="checkbox" id="q2"><label for="q2">Det finns <b>regler som krockar</b> — kompetens, tidsfönster, arbetstid, ordning, kapacitet.</label></div>
+      <div class="q"><input type="checkbox" id="q3"><label for="q3">Antalet kombinationer är <b>astronomiskt</b> (miljarder), men en lösning räknas ut på sekunder.</label></div>
+      <div class="q"><input type="checkbox" id="q4"><label for="q4">Kostnaden går att skriva som en <b>summa</b> av priser: restid, övertid, straffavgifter.</label></div>
+      <div class="q"><input type="checkbox" id="q5"><label for="q5">Jag behöver <b>bevis</b> att planen är optimal, eller veta hur långt ifrån optimal den är.</label></div>
+      <div class="q"><input type="checkbox" id="q6"><label for="q6">Planen ska göras om <b>ofta</b> (varje dag, varje order) med små ändringar.</label></div>
+      <div class="q"><input type="checkbox" id="q7"><label for="q7">Det går att säga vad som är <b>tillåtet</b> — reglerna är kända och skrivbara.</label></div>
+      <div class="q" style="border-bottom:0"><input type="checkbox" id="q8"><label for="q8">Jag har <b>data</b> i tabeller: resurser, uppgifter, restider, kompetenser.</label></div>
+      <div class="verdict">
+        <div class="score" id="fit-score">0 av 8</div>
+        <div id="fit-text" class="small" style="margin-top:6px"></div>
+      </div>
+    </div>
+    <div>
+      <div class="card">
+        <h3 style="margin-bottom:10px">Där det brukar betala sig</h3>
+        <table>
+          <tr><td>Schemaläggning</td><td class="muted">personal, pass, jour, operationssalar</td></tr>
+          <tr><td>Fältservice</td><td class="muted">tekniker, tidsfönster, restid, SLA</td></tr>
+          <tr><td>Rutt &amp; logistik</td><td class="muted">fordon, lastbärare, tidluckor</td></tr>
+          <tr><td>Produktion</td><td class="muted">batchar, ställtid, sekvensberoende</td></tr>
+          <tr><td>Konfiguration</td><td class="muted">paket av moduler som måste passa ihop</td></tr>
+          <tr><td>Allokering</td><td class="muted">resurser mot uppgifter, kvoter, rättvisa</td></tr>
+        </table>
+      </div>
+      <div class="card" style="margin-top:16px">
+        <h3 style="margin-bottom:8px">Där det <em>inte</em> passar</h3>
+        <p class="small muted" style="margin:0">Ren kontinuerlig ekonomi (använd LP). Problemet är
+        odefinierat eller reglerna ändras mitt i (ingen modell hjälper). Optimeringsproblemet är i praktiken
+        ett inlärningsproblem — då är ML rätt verktyg. Och: kan en enkel girig regel lösa det, ska du inte
+        införa en solver.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CODE ================= -->
+<section id="kod">
+  <div class="secnum">KOD</div>
+  <h2>Fyra byggstenar som gör hela skillnaden</h2>
+  <div class="tabs" id="tabs">
+    <button class="tab" data-k="model" aria-pressed="true">Modellen</button>
+    <button class="tab" data-k="nover" aria-pressed="false">Utan överlapp</button>
+    <button class="tab" data-k="soft" aria-pressed="false">Mjuka fönster</button>
+    <button class="tab" data-k="diag" aria-pressed="false">Diagnos</button>
+  </div>
+  <pre id="code"></pre>
+  <p class="small muted">Full dokumentation: <a href="https://developers.google.com/optimization/cp/cp_solver" target="_blank" rel="noopener">CP-SAT Solver</a>
+  · <a href="https://developers.google.com/optimization/cp/queens" target="_blank" rel="noopener">N-queens</a>
+  · <a href="https://developers.google.com/optimization/scheduling/employee_scheduling" target="_blank" rel="noopener">Employee scheduling</a></p>
+</section>
+
+<!-- ================= METHOD ================= -->
+<section id="metod">
+  <div class="secnum">METOD</div>
+  <h2>Vad som är riktigt här</h2>
+  <table>
+    <tr><th>Del</th><th>Vad den är</th></tr>
+    <tr><td>Labb 01</td><td>Verkliga CP-SAT-körningar, genererade av <code>gen_data.py</code> med OR-Tools 9.15.6755. Status, målvärde, tid, variabel- och villkorsantal samt schemat är utdata från solvern. Instansen är syntetisk men realistisk.</td></tr>
+    <tr><td>Labb 02</td><td>En miniatyrsolver i JavaScript — backtracking med forward checking. Den är till för att visa <em>mekanismen</em>, inte prestandan. Den bevisar inget om CP-SAT:s hastighet.</td></tr>
+    <tr><td>Labb 03</td><td>En tumregel, inte ett orakel. Poängen är att tvinga fram frågan "vilka regler, vilket pris, vilket bevis".</td></tr>
+  </table>
+  <p class="small muted" style="margin-top:16px">Källkod, datagenerering och README:
+  <a href="https://github.com/magnusfroste/cp-sat-playground" target="_blank" rel="noopener">github.com/magnusfroste/cp-sat-playground</a>.
+  Sidan är en enda statisk fil utan beroenden — den fungerar offline.</p>
+</section>
+
+<footer>
+  <div>Byggd som utbildningsmaterial om constraint programming. CP-SAT är en del av
+  <a href="https://developers.google.com/optimization" target="_blank" rel="noopener">Google OR-Tools</a> (Apache 2.0).</div>
+</footer>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
