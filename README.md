@@ -4,7 +4,7 @@ An interactive teaching page for **Google OR-Tools CP-SAT** — the constraint s
 schedules, routes, packs and allocates. Built to answer one question honestly: *when does
 this kind of solver beat a hand-written rule, a spreadsheet, or an LLM?*
 
-**Live:** https://magnusfroste.github.io/cp-sat-playground/
+**Live:** https://pages.agenthotel.org/cp-sat-playground/ · mirror: https://magnusfroste.github.io/cp-sat-playground/
 
 ## What is on the page
 
